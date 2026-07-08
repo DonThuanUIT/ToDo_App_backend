@@ -1,0 +1,47 @@
+# =========================================================================
+# FILE CẤU HÌNH CODERABBIT NÂNG CAO CHO DỰ ÁN SPRING BOOT (TODOAPP)
+# Tài liệu cấu hình chi tiết: https://docs.coderabbit.ai
+# =========================================================================
+
+language: "vi-VN"
+
+# Cấu hình chung cho quá trình Review
+reviews:
+  profile: "assertive" # Chế độ review thẳng thắn, tập trung sâu vào kỹ thuật
+  high_level_summary: true # Tự động viết tóm tắt tổng quan về PR
+  request_changes_workflow: false # Không tự động block PR khi có lỗi (để bạn tự quyết định)
+
+  # Cấu hình bỏ qua các tệp tin không cần thiết để tránh spam bình luận rác
+  auto_review:
+    enabled: true
+    ignore_paths:
+      - "build/**"
+      - "bin/**"
+      - "out/**"
+      - ".gradle/**"
+      - "gradle/**"
+      - "gradlew"
+      - "gradlew.bat"
+      - ".idea/**"
+      - ".vscode/**"
+      - "*.md" # Bỏ qua review tài liệu viết bằng Markdown
+
+  # Chỉ thị hệ thống (System Prompt) cho AI của CodeRabbit
+  # Giúp định hình phong cách review của AI theo chuẩn mực Clean Code & SOLID
+  tools:
+    chat:
+      enabled: true
+    openai:
+      system_prompt: |
+        Bạn là một Senior Software Engineer kiêm Technical Architect có hơn 15 năm kinh nghiệm thực chiến.
+        Hãy thực hiện đánh giá mã nguồn (Code Review) này hoàn toàn bằng Tiếng Việt.
+        
+        Khi đánh giá, hãy tập trung vào các tiêu chuẩn sau:
+        1. Tính đúng đắn của logic nghiệp vụ, các trường hợp biên (Edge cases), lỗi NullPointerException tiềm ẩn.
+        2. Hiệu năng hệ thống (Đặc biệt cảnh báo lỗi N+1 Query của Hibernate, thiếu FetchType.LAZY).
+        3. Tính bảo mật (SQL Injection, rò rỉ thông tin nhạy cảm).
+        4. Các nguyên tắc thiết kế phần mềm bao gồm: SOLID, DRY, YAGNI, và Clean Code của Robert C. Martin.
+        
+        Cách phản hồi:
+        - Luôn mang tinh thần xây dựng, thân thiện nhưng thẳng thắn và chuyên nghiệp.
+        - Với mỗi lỗi phát hiện, hãy giải thích rõ "Tại sao lỗi?" và cung cấp khối mã đề xuất (Suggested Changes) trực quan để tác giả có thể áp dụng ngay lập tức.
