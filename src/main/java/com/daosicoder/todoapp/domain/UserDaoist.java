@@ -2,6 +2,7 @@ package com.daosicoder.todoapp.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -13,8 +14,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.OffsetDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "user_daoists")
@@ -23,10 +28,12 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserDaoist extends BaseEntity {
+@EntityListeners(AuditingEntityListener.class)
+public class UserDaoist {
+
     @Id
     @Column(name = "user_id")
-    private java.util.UUID id;
+    private UUID id;
 
     @Column(name = "current_points", nullable = false)
     @Builder.Default
@@ -48,6 +55,10 @@ public class UserDaoist extends BaseEntity {
     @Builder.Default
     private Integer weeklyStreak = 0;
 
+    @LastModifiedDate
+    @Column(name = "updated_at", nullable = false)
+    private OffsetDateTime updatedAt;
+
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "user_id")
@@ -58,7 +69,7 @@ public class UserDaoist extends BaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDaoist that = (UserDaoist) o;
-        return getId() != null && Objects.equals(getId(), that.getId());
+        return id != null && Objects.equals(id, that.id);
     }
 
     @Override
